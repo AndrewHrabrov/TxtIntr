@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     po::options_description desc("Логарифмический калькулятор");
     desc.add_options()
         ("help,h" , "Выдать справку")
-        ("type,t" , po::value<std::string>()->required(), "Тип логарифма. natural-n or usual-u")
+        ("type,t" , po::value<std::string>()->required(), "Тип логарифма. natural or usual")
         ("arg,a" , po::value<double>()->required(), "Аргумент логарифма. Обязательно больше нуля!")
         ("base,b", po::value<double>(), "Основание логарифма. Обязательно больше нуля и не единица! (по дефолту равно экспоненте)");
 
@@ -40,6 +40,11 @@ int main(int argc, char* argv[]) {
     
     if (vm.count("base") && type == "natural") {
         std::cerr << "Основание логарифма уже определено первым параметром! \n";
+        return 1;
+    }
+    
+    if (!vm.count("base") && type == "usual") {
+        std::cerr << "Ошибка! введите основание логарифма \n";
         return 1;
     }
 
